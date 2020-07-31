@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { message } from 'antd';
 import withAuth from '../hocs/withAuth';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import axios from 'axios';
 
-const SigninBlock = styled.div`
+const SigninBlock = styled.div.attrs(props => ({
+  ref: props.backgroundRef,
+}))`
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: center;
 
-  width: 50vmin;
+  width: 100vw;
   height: 100vmin;
-  margin: 0 auto;
 
   text-align: center;
 
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  background-size: cover;
+  background-repeat: none;
+
+  & .bgHolder {
+    background-color: white;
+    padding: 36px 0px;
+    border-radius: 6px;
+    width: 50vmin;
+    margin: 0 auto;
+  }
+
   & form label {
     display: block;
   }
@@ -68,36 +80,51 @@ class Signin extends Component {
     email: '',
   };
 
+  componentDidMount() {
+    this.getPhoto();
+  }
+
+  getPhoto = async () => {
+    const ACCESS_KEY = 'nLiOUFEzySn2iky1ZHM9NiDoC99dDysByJVxIZ8r6YE';
+    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&client_id=${ACCESS_KEY}`;
+    const res = await axios(url);
+    const { urls } = await res.data;
+    this.backgroundRef.current.style.backgroundImage = `url(${urls.regular})`;
+  };
+
   passwordRef = React.createRef();
+  backgroundRef = React.createRef();
 
   render() {
     return (
-      <SigninBlock>
-        <h1 style={{ fontWeight: 700, margin: 0 }}>Welcome Back</h1>
-        <h3>sign in to continue</h3>
-        <form>
-          <div>
-            <label>email</label>
-            <input
-              type="text"
-              value={this.state.email}
-              onChange={this.change}
-              onSubmit={this.click}
-            />
-          </div>
-          <div>
-            <label>password</label>
-            <input
-              type="password"
-              ref={this.passwordRef}
-              onSubmit={this.click}
-            />
-          </div>
-          <div>
-            <button onClick={this.click}>continue</button>
-          </div>
-          {/* <input type="password" ref={(ref)=>{this.passwordRef.current =ref}} /> */}
-        </form>
+      <SigninBlock ref={this.backgroundRef}>
+        <div className="bgHolder">
+          <h1 style={{ fontWeight: 700, margin: 0 }}>Welcome Back</h1>
+          <h3>sign in to continue</h3>
+          <form>
+            <div>
+              <label>email</label>
+              <input
+                type="text"
+                value={this.state.email}
+                onChange={this.change}
+                onSubmit={this.click}
+              />
+            </div>
+            <div>
+              <label>password</label>
+              <input
+                type="password"
+                ref={this.passwordRef}
+                onSubmit={this.click}
+              />
+            </div>
+            <div>
+              <button onClick={this.click}>continue</button>
+            </div>
+            {/* <input type="password" ref={(ref)=>{this.passwordRef.current =ref}} /> */}
+          </form>
+        </div>
       </SigninBlock>
     );
   }
