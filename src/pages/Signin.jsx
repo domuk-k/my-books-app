@@ -16,6 +16,7 @@ const SigninBlock = styled.div`
 
   text-align: center;
 
+  font-size: 1.4rem;
   & form label {
     display: block;
   }
@@ -26,9 +27,9 @@ const SigninBlock = styled.div`
     background: #4c6ef5;
     color: white;
     width: 100%;
+    height: 2.5rem;
 
     margin: 1rem auto;
-    height: 2rem;
     :active,
     :hover {
       background: #3b5bdb;
@@ -52,6 +53,9 @@ const SigninBlock = styled.div`
     margin: 5px 0;
     padding: 5px;
 
+    :hover {
+      border: 2px #e9ecef solid;
+    }
     :focus {
       background-color: white;
       border: 2px #3b5bdb solid;
@@ -70,7 +74,7 @@ class Signin extends Component {
     return (
       <SigninBlock>
         <h1 style={{ fontWeight: 700, margin: 0 }}>Welcome Back</h1>
-        <h3>signin to continue</h3>
+        <h3>sign in to continue</h3>
         <form>
           <div>
             <label>email</label>
