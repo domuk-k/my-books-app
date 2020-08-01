@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { message } from 'antd';
-import withAuth from '../hocs/withAuth';
+import withoutAuth from '../hocs/withoutAuth';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 
@@ -86,7 +86,7 @@ class Signin extends Component {
 
   getPhoto = async () => {
     const ACCESS_KEY = 'nLiOUFEzySn2iky1ZHM9NiDoC99dDysByJVxIZ8r6YE';
-    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&client_id=${ACCESS_KEY}`;
+    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&query=animal&client_id=${ACCESS_KEY}`;
     const res = await axios(url);
     const { urls } = await res.data;
     this.backgroundRef.current.style.backgroundImage = `url(${urls.regular})`;
@@ -179,4 +179,4 @@ class Signin extends Component {
   };
 }
 
-export default withAuth(Signin, false);
+export default withoutAuth(Signin, false);

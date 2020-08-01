@@ -1,12 +1,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-// 이 hoc로 감싼 컴포는 토큰이없을때 리디렉션
-export default function withAuth(Component) {
+//  이 hoc로 감싼 컴포는 토큰이 있으면 리디렉션
+
+export default function withoutAuth(Component) {
   const C = props => {
     const token = localStorage.getItem('token');
-    if (token === null) return <Redirect to="/signin" />;
-    // if (token !== null && !hasToken) return <Redirect to="/" />;
+    if (token !== null) return <Redirect to="/" />;
 
     return <Component {...props} />;
   };
