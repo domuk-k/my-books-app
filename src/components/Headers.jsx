@@ -35,7 +35,14 @@ function Headers() {
     <>
       <SubHeader>
         <button>add</button>
-        <button>log out</button>
+        <button
+          onClick={() => {
+            localStorage.removeItem('token');
+            window.location = 'http://localhost:3000/';
+          }}
+        >
+          log out
+        </button>
       </SubHeader>
       <MainHeader>ENJOY READING</MainHeader>
     </>
