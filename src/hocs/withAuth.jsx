@@ -8,7 +8,7 @@ export default function withAuth(Component) {
     if (token === null) return <Redirect to="/signin" />;
     // if (token !== null && !hasToken) return <Redirect to="/" />;
 
-    return <Component {...props} />;
+    return <Component {...props} token={token} />;
   };
 
   C.displayName = `withAuth(${Component.displayName})`;

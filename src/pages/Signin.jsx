@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { message } from 'antd';
 import withoutAuth from '../hocs/withoutAuth';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import axios from 'axios';
 
 const SigninBlock = styled.div.attrs(props => ({
@@ -17,18 +17,16 @@ const SigninBlock = styled.div.attrs(props => ({
 
   text-align: center;
 
-  font-size: 1.2rem;
   background-size: cover;
   background-repeat: none;
 
-  & .bgHolder {
+  & .signinBox {
     background-color: white;
     padding: 36px 0px;
     border-radius: 6px;
-    width: 50vmin;
+    min-width: 15vw;
     margin: 0 auto;
   }
-
   & form label {
     display: block;
   }
@@ -86,7 +84,7 @@ class Signin extends Component {
 
   getPhoto = async () => {
     const ACCESS_KEY = 'nLiOUFEzySn2iky1ZHM9NiDoC99dDysByJVxIZ8r6YE';
-    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&query=animal&client_id=${ACCESS_KEY}`;
+    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&query=wallpaper&client_id=${ACCESS_KEY}`;
     const res = await axios(url);
     const { urls } = await res.data;
     this.backgroundRef.current.style.backgroundImage = `url(${urls.regular})`;
@@ -98,7 +96,7 @@ class Signin extends Component {
   render() {
     return (
       <SigninBlock ref={this.backgroundRef}>
-        <div className="bgHolder">
+        <div className="signinBox">
           <h1 style={{ fontWeight: 700, margin: 0 }}>Welcome Back</h1>
           <h3>sign in to continue</h3>
           <form>
@@ -133,7 +131,7 @@ class Signin extends Component {
     e.preventDefault();
     const email = this.state.email;
     const password = this.passwordRef.current.value;
-
+    // eslint-disable-next-line
     const regex_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
     if (!email.match(regex_email)) {
