@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-const App = () => (
+const App = store => (
   <ErrorBoundary FallbackComponent={Error}>
     <GlobalStyle />
     <BrowserRouter>
