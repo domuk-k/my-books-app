@@ -5,10 +5,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import create from './store';
+import MyReduxContext from './MyReduxContext';
+import { Provider } from 'react-redux';
+
+// store 의 생성
+const store = create();
+
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root'),
 );
 

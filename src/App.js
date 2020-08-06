@@ -9,11 +9,20 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body{
-   background:white
+   background:white;
   }
+  body *{
+    user-select : none;
+  }
+  ul{
+    list-style: none;
+    padding: 0;
+    margin:0;
+  }
+
 `;
 
-const App = () => (
+const App = store => (
   <ErrorBoundary FallbackComponent={Error}>
     <GlobalStyle />
     <BrowserRouter>

@@ -1,182 +1,49 @@
-import React, { Component } from 'react';
-import { message } from 'antd';
+import React from 'react';
 import withoutAuth from '../hocs/withoutAuth';
-import styled, { css } from 'styled-components';
-import axios from 'axios';
+import SigninFormContainer from '../containers/SigninFormContainer';
+import styled from 'styled-components';
 
-const SigninBlock = styled.div.attrs(props => ({
-  ref: props.backgroundRef,
-}))`
+const SinginPage = styled.div`
   display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-
-  width: 100vw;
-  height: 100vmin;
-
-  text-align: center;
-
-  font-size: 1.2rem;
-  background-size: cover;
-  background-repeat: none;
-
-  & .bgHolder {
-    background-color: white;
-    padding: 36px 0px;
-    border-radius: 6px;
-    width: 50vmin;
-    margin: 0 auto;
+  & .login-left {
+    width: 50vw;
+    height: 100vh;
+    background-color: ivory;
+    background-image: ${(props) => props.img};
   }
-
-  & form label {
-    display: block;
+  & .login-right {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  & .login-block {
+    width: 35vw;
+    height: 45vh;
+    border-radius: 8px;
+    border: 1px solid lightgrey;
 
-  & button {
-    border: none;
-    border-radius: 5px;
-    background: #4c6ef5;
-    color: white;
-    width: 100%;
-    height: 2.5rem;
-
-    margin: 1rem auto;
-    :active,
-    :hover {
-      background: #3b5bdb;
-    }
-  }
-
-  & form div {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 6px 12px;
-    text-align: left;
-    width: 70%;
-  }
-
-  & input {
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    outline: none;
-    width: 100%;
-    margin: 5px 0;
-    padding: 5px;
-
-    :hover {
-      border: 2px #e9ecef solid;
-    }
-    :focus {
-      background-color: white;
-      border: 2px #3b5bdb solid;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 `;
 
-class Signin extends Component {
-  state = {
-    email: '',
-  };
-
-  componentDidMount() {
-    this.getPhoto();
-  }
-
-  getPhoto = async () => {
-    const ACCESS_KEY = 'nLiOUFEzySn2iky1ZHM9NiDoC99dDysByJVxIZ8r6YE';
-    const url = `https://api.unsplash.com/photos/random?w=1920&featured=true&content_filter=high&orientation=landscape&query=animal&client_id=${ACCESS_KEY}`;
-    const res = await axios(url);
-    const { urls } = await res.data;
-    this.backgroundRef.current.style.backgroundImage = `url(${urls.regular})`;
-  };
-
-  passwordRef = React.createRef();
-  backgroundRef = React.createRef();
-
-  render() {
-    return (
-      <SigninBlock ref={this.backgroundRef}>
-        <div className="bgHolder">
-          <h1 style={{ fontWeight: 700, margin: 0 }}>Welcome Back</h1>
-          <h3>sign in to continue</h3>
-          <form>
-            <div>
-              <label>email</label>
-              <input
-                type="text"
-                value={this.state.email}
-                onChange={this.change}
-                onSubmit={this.click}
-              />
-            </div>
-            <div>
-              <label>password</label>
-              <input
-                type="password"
-                ref={this.passwordRef}
-                onSubmit={this.click}
-              />
-            </div>
-            <div>
-              <button onClick={this.click}>continue</button>
-            </div>
-            {/* <input type="password" ref={(ref)=>{this.passwordRef.current =ref}} /> */}
-          </form>
+function Signin() {
+  return (
+    <SinginPage>
+      <div className="login-left" />
+      <div className="login-right">
+        <div className="login-block">
+          <h1>로그인</h1>
+          <SigninFormContainer />
         </div>
-      </SigninBlock>
-    );
-  }
-
-  click = async e => {
-    e.preventDefault();
-    const email = this.state.email;
-    const password = this.passwordRef.current.value;
-
-    const regex_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-
-    if (!email.match(regex_email)) {
-      message.error('이메일 형식 오류');
-      return;
-    }
-    if (password === '') {
-      message.error('비밀번호를 입력하세요');
-      return;
-    }
-
-    const url = 'https://api.marktube.tv/v1/me';
-
-    try {
-      const res = await axios.post(url, {
-        email,
-        password,
-      });
-      // 1.토근을 저장
-      const token = res.data.token;
-      localStorage.setItem('token', token);
-      // 2.홈으로이동
-      this.props.history.push('/');
-      // 3.팝업
-      message.success('로그인 성공');
-    } catch (error) {
-      let errorCode = error?.response?.data?.error || 'NOT_MATCH';
-      if (errorCode === 'PASSWORD_NOT_MATCH') {
-        message.error('계정정보 불일치');
-      } else if (errorCode === 'USER_NOT_EXIST') {
-        message.error('존재하지 않는 이메일');
-      } else {
-        message.error('나도 모르는 에러');
-      }
-      // alert('다시 입력혀');
-    }
-  };
-
-  change = e => {
-    this.setState({
-      email: e.target.value,
-    });
-  };
+      </div>
+    </SinginPage>
+  );
 }
 
-export default withoutAuth(Signin, false);
+export default withoutAuth(Signin);
