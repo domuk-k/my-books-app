@@ -21,7 +21,6 @@ export default class BookService {
       const url = `https://dapi.kakao.com/v3/search/book?target=title&size=1&${qs.stringify(
         query,
       )}`;
-      console.log(query);
       const requestOptions = {
         method: 'GET',
         headers: {
@@ -35,5 +34,29 @@ export default class BookService {
     }
 
     return covers;
+  }
+
+  static async addBook(token, book) {
+    const response = await axios.post(BOOK_API_URL, book, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+  static async editBook(token, bookId, book) {
+    const response = await axios.patch(`${BOOK_API_URL}/${bookId}`, book, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+  static async deleteBook(token, bookId) {
+    await axios.delete(`${BOOK_API_URL}/${bookId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }

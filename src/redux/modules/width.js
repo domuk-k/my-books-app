@@ -1,4 +1,6 @@
-const { RESIZE_WINDOW } = require('../actions');
+const RESIZE_WINDOW = 'RESIZE_WINDOW';
+
+export const resize = width => ({ type: RESIZE_WINDOW, width });
 
 const initialState = { width: window.innerWidth };
 

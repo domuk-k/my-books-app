@@ -9,4 +9,7 @@ export default class UserService {
     });
     return response.data.token;
   }
+  static async logout() {
+    const res = await axios.post();
+  }
 }

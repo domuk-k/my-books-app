@@ -1,9 +1,10 @@
 import React from 'react';
-import withAuth from '../hocs/withAuth';
 import BookListContainer from '../containers/BookListContainer';
+import useAuth from '../hooks/useAuth';
 
 const Home = () => {
+  useAuth();
   return <BookListContainer />;
 };
 
-export default withAuth(Home);
+export default Home;

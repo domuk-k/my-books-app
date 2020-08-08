@@ -1,7 +1,8 @@
 import React from 'react';
-import withoutAuth from '../hocs/withoutAuth';
 import SigninFormContainer from '../containers/SigninFormContainer';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const SinginPage = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const SinginPage = styled.div`
     width: 50vw;
     height: 100vh;
     background-color: ivory;
-    background-image: ${(props) => props.img};
+    background-image: ${props => props.img};
   }
   & .login-right {
     width: 50vw;
@@ -33,6 +34,8 @@ const SinginPage = styled.div`
 `;
 
 function Signin() {
+  const token = useSelector(state => state.auth.token);
+  if (token !== null) return <Redirect />;
   return (
     <SinginPage>
       <div className="login-left" />
@@ -46,4 +49,4 @@ function Signin() {
   );
 }
 
-export default withoutAuth(Signin);
+export default Signin;

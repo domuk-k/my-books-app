@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import Error from './pages/Error';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createGlobalStyle } from 'styled-components';
+import { ConnectedRouter } from 'connected-react-router';
+import { history } from './redux/create';
 
 const GlobalStyle = createGlobalStyle`
   body{
@@ -25,13 +27,13 @@ const GlobalStyle = createGlobalStyle`
 const App = store => (
   <ErrorBoundary FallbackComponent={Error}>
     <GlobalStyle />
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/" component={Home} />
         <Route component={NotFound} />
       </Switch>
-    </BrowserRouter>
+    </ConnectedRouter>
   </ErrorBoundary>
 );
 

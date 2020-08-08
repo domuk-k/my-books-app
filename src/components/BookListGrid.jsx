@@ -11,7 +11,7 @@ const StyledGrid = styled.ul`
   list-style: none;
   padding-left: 0;
 
-  ${(props) =>
+  ${props =>
     props.width < 980 &&
     css`
       display: block;
@@ -19,8 +19,7 @@ const StyledGrid = styled.ul`
 `;
 
 function BookListGrid({ children }) {
-  const width = useSelector((state) => state.width.width);
-  console.log(width);
+  const width = useSelector(state => state.width.width);
   return <StyledGrid width={width}>{children}</StyledGrid>;
 }
 

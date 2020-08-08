@@ -4,13 +4,20 @@ import BookCard from './BookCard';
 import styled from 'styled-components';
 
 const BookListBlock = styled.div`
-  padding: 30px ${(props) => props.width / 12}px;
+  padding: 30px ${props => props.width / 12}px;
   & h1 {
     font-weight: 800;
   }
 `;
 // Presentational Component
-export default function BookList({ books, loading, error, getBooks, width }) {
+export default function BookList({
+  books,
+  loading,
+  error,
+  getBooks,
+  width,
+  logout,
+}) {
   useEffect(() => {
     getBooks();
   }, [getBooks]);
@@ -18,11 +25,12 @@ export default function BookList({ books, loading, error, getBooks, width }) {
   return (
     <BookListBlock width={width}>
       <h1>ENJOY READING</h1>
+      <h3>Logout</h3>
       {loading && <p>로딩 중...</p>}
       {error && <p>에러다!!</p>}
       <BookListGrid>
         {error === null &&
-          books.map((book) => (
+          books.map(book => (
             <li key={book.bookId} id={book.bookId}>
               <BookCard book={book} width={width} />
             </li>
