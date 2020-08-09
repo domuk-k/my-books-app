@@ -1,20 +1,19 @@
 import React from 'react';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startLoginSagaActionCreator } from '../redux/modules/auth';
 import SigninForm from '../components/SigninForm';
-import { useHistory } from 'react-router-dom';
 
 export default function SignInContainer() {
-  const history = useHistory();
+  const loading = useSelector(state => state.auth.loading);
   const dispatch = useDispatch();
 
   const login = useCallback(
     (email, password) => {
       dispatch(startLoginSagaActionCreator(email, password));
     },
-    [dispatch, history],
+    [dispatch],
   );
 
-  return <SigninForm login={login} />;
+  return <SigninForm login={login} loading={loading} />;
 }

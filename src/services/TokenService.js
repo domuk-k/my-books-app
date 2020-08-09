@@ -6,7 +6,7 @@ export default class TokenService {
   static getToken() {
     return localStorage.getItem(LOCALSTORAGE_KEY);
   }
-  static logOut() {
+  static clear() {
     localStorage.removeItem(LOCALSTORAGE_KEY);
   }
 }

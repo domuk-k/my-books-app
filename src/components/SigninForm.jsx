@@ -8,9 +8,13 @@ const FormBlock = styled.form`
 
   & input {
     border-radius: 10px;
-    border: 1px solid lightgrey;
+    border: 2px solid lightgrey;
     outline: none;
     padding: 4px 12px;
+
+    :hover {
+      border: 2px solid #7950f2;
+    }
   }
 
   & button {
@@ -27,7 +31,7 @@ const FormBlock = styled.form`
   }
 `;
 
-export default function SigninForm({ login }) {
+export default function SigninForm({ login, loading }) {
   const emailRef = React.useRef();
   const passwordRef = React.useRef(); // 한번 만들어지면 객체 인스턴스는 그대로
 
@@ -50,8 +54,9 @@ export default function SigninForm({ login }) {
         <input type="password" ref={passwordRef} />
       </div>
       <div>
-        <button onClick={click}>로그인</button>
+        <button onClick={click}>continue</button>
       </div>
+      {loading && <p>로딩 중...</p>}
     </FormBlock>
   );
 }

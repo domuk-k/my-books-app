@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import { useSelector } from 'react-redux';
 // import WidthContext from './WidthContext';
 
+const gridPoint = '1050';
+
 const StyledGrid = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -12,7 +14,7 @@ const StyledGrid = styled.ul`
   padding-left: 0;
 
   ${props =>
-    props.width < 980 &&
+    props.width < gridPoint &&
     css`
       display: block;
     `}

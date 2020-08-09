@@ -8,10 +8,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { createGlobalStyle } from 'styled-components';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from './index';
+import Add from './pages/Add';
+import useWindowWidth from './hooks/useWindowWidth';
 
 const GlobalStyle = createGlobalStyle`
   body{
    background:white;
+
   }
   body *{
     user-select : none;
@@ -24,17 +27,21 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-const App = () => (
-  <ErrorBoundary FallbackComponent={Error}>
-    <GlobalStyle />
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route exact path="/signin" component={Signin} />
-        <Route exact path="/" component={Home} />
-        <Route component={NotFound} />
-      </Switch>
-    </ConnectedRouter>
-  </ErrorBoundary>
-);
+const App = () => {
+  useWindowWidth();
+  return (
+    <ErrorBoundary FallbackComponent={Error}>
+      <GlobalStyle />
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route exact path="/signin" component={Signin} />
+          <Route exact path="/add" component={Add} />
+          <Route exact path="/" component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </ConnectedRouter>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

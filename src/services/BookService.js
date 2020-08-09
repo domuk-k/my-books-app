@@ -13,7 +13,6 @@ export default class BookService {
     const data = await response.data;
     return data;
   }
-
   static async getBookCovers(books) {
     const covers = [];
     const KAKAO_BOOK_APP_KEY = `6ca57f1a12aa1279e34bf0775176aba4`;
@@ -45,6 +44,7 @@ export default class BookService {
     });
     return response.data;
   }
+
   static async editBook(token, bookId, book) {
     const response = await axios.patch(
       `${BOOK_API_URL}/${bookId}`,

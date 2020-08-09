@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+const deleteColor = '#f03e3e';
 const BookCardBlock = styled.div`
   display: flex;
   width: 100%;
@@ -9,6 +10,7 @@ const BookCardBlock = styled.div`
   border: 1px solid #ced4da;
   height: 260px;
   color: #495057;
+  position: relative;
 
   :hover {
     box-shadow: 1px 1px 9px #ced4da;
@@ -16,12 +18,13 @@ const BookCardBlock = styled.div`
 
   & img {
     min-width: 160px;
+    width: 160px;
     margin-right: 20px;
     border-radius: 8px;
     border: 1px solid #e9ecef;
   }
 
-  ${(props) =>
+  ${props =>
     props.width < 1000 &&
     css`
       margin-bottom: 30px;
@@ -29,7 +32,7 @@ const BookCardBlock = styled.div`
 `;
 
 const BookDetailBlock = styled.div`
-  & h2 {
+  # colo & h2 {
     display: inline-block;
     font-weight: 700;
     word-break: keep-all;
@@ -53,16 +56,35 @@ const BookDetailBlock = styled.div`
     color: grey;
     margin-bottom: 10px;
   }
+  & button {
+    position: absolute;
+    top: 28px;
+    right: 20px;
+
+    background-color: white;
+    color: ${deleteColor};
+    border: 1px ${deleteColor} solid;
+    :hover {
+      background-color: ${deleteColor};
+      color: white;
+    }
+  }
 `;
 
-const BookCard = ({ book, width }) => {
+const BookCard = ({ book, width, removeBook }) => {
+  const remove = React.useCallback(() => {
+    removeBook(+book.bookId);
+  }, [removeBook, book]);
   return (
     <BookCardBlock book={book} width={width}>
-      {width > 600 && <img src={book.thumbnail} alt="도서 커버이미지"></img>}
+      {width > 600 && (
+        <img src={book.thumbnail} alt="도서 커버이미지"></img>
+      )}
       <BookDetailBlock>
         <h2>{book.title}</h2>
         <i>{book.author}</i>
         <p>{book.message}</p>
+        <button onClick={remove}>삭제</button>
       </BookDetailBlock>
     </BookCardBlock>
   );

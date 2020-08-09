@@ -1,8 +1,11 @@
 import React from 'react';
 import BookList from '../components/BookList';
 import { useDispatch, useSelector } from 'react-redux';
-import { startGetBooksActionCreator } from '../redux/modules/books';
-import { startLogOutSagaActionCreator } from '../redux/modules/auth';
+import {
+  startGetBooksActionCreator,
+  removeBookActionCreator,
+} from '../redux/modules/books';
+import { push } from 'connected-react-router';
 
 export default function BookListContainer() {
   // mapStateToProps
@@ -16,12 +19,14 @@ export default function BookListContainer() {
   const dispatch = useDispatch();
   const getBooks = React.useCallback(async () => {
     dispatch(startGetBooksActionCreator(token));
-  }, [dispatch]);
-
-  const logout = React.useCallback(() => {
-    dispatch(startLogOutSagaActionCreator());
-  }, [dispatch]);
-
+  }, [dispatch, token]);
+  const removeBook = React.useCallback(
+    async id => {
+      dispatch(removeBookActionCreator(token)(id));
+      dispatch(push('/'));
+    },
+    [dispatch, token],
+  );
   return (
     <BookList
       books={books}
@@ -29,7 +34,7 @@ export default function BookListContainer() {
       error={error}
       getBooks={getBooks}
       width={width}
-      logout={logout}
+      removeBook={removeBook}
     />
   );
 }

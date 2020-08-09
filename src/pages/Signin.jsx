@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SigninFormContainer from '../containers/SigninFormContainer';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import BackgroundService from '../services/BackgroundService';
 
+const mediaPoint = 700;
 const SinginPage = styled.div`
   display: flex;
+
   & .login-left {
     width: 50vw;
-    height: 100vh;
-    background-color: ivory;
-    background-image: ${props => props.img};
+    background-image: url(${props => props.img});
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   & .login-right {
-    width: 50vw;
+    width: ${props => (props.width > mediaPoint ? '50vw' : '100vw')};
     height: 100vh;
     display: flex;
     align-items: center;
@@ -35,13 +38,25 @@ const SinginPage = styled.div`
 
 function Signin() {
   const token = useSelector(state => state.auth.token);
-  // if (token !== null) return <Redirect to="/" />;
+  const width = useSelector(state => state.width.width);
+
+  const [img, setImg] = useState('');
+  useEffect(() => {
+    const fetchImg = async () => {
+      const img = await BackgroundService.getSource();
+      setImg(img);
+    };
+    fetchImg();
+  }, []);
+  if (token !== null) return <Redirect to="/" />;
+
   return (
-    <SinginPage>
-      <div className="login-left" />
+    <SinginPage width={width} img={img}>
+      {width > mediaPoint && <div className="login-left" />}
       <div className="login-right">
         <div className="login-block">
-          <h1>로그인</h1>
+          <h1>WELCOME BACK</h1>
+          <h3>sign in to continue</h3>
           <SigninFormContainer />
         </div>
       </div>

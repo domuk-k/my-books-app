@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
-const SubHeader = styled.div`
+const MainHeader = styled.div`
   text-align: right;
 
   & button {
@@ -12,39 +13,48 @@ const SubHeader = styled.div`
     border-radius: 5px;
     text-transform: uppercase;
 
-    background: #495057;
-    border: 1px solid #f1f3f5;
-    color: white;
+    background: transparent;
+    border: 1px solid #495057;
+    color: #343a40;
 
     &:hover {
-      background: transparent;
-      border: 1px solid #495057;
-      color: #343a40;
+      background: #495057;
+      border: 1px solid #f1f3f5;
+      color: white;
     }
   }
 `;
 
-const MainHeader = styled.h1`
+const SubHeader = styled.h1`
   font-weight: 800;
   font-size: 2.4rem;
   margin: 0;
 `;
 
-function Headers() {
+function Headers({ logout, goToAdd, goBack }) {
+  const path = useSelector(state => state.router.location.pathname);
   return (
     <>
-      <SubHeader>
-        <button>add</button>
-        <button
-          onClick={() => {
-            localStorage.removeItem('token');
-            window.location = 'http://localhost:3000/';
-          }}
-        >
-          log out
-        </button>
-      </SubHeader>
-      <MainHeader>ENJOY READING</MainHeader>
+      {path === '/' && (
+        <>
+          <MainHeader>
+            <button onClick={goToAdd}>add</button>
+            <button onClick={logout}>log out</button>
+          </MainHeader>
+          <SubHeader>ENJOY READING</SubHeader>
+        </>
+      )}
+      {path === '/add' && (
+        <>
+          <MainHeader>
+            <button onClick={goBack}>뒤로가기</button>
+            <button onClick={logout}>log out</button>
+          </MainHeader>
+          <SubHeader>
+            ADD ANY <br /> MEANINGFUL BOOK
+          </SubHeader>
+        </>
+      )}
     </>
   );
 }

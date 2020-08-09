@@ -3,10 +3,11 @@ import TokenService from '../../services/TokenService';
 import { push } from 'connected-react-router';
 import {
   takeEvery,
-  takeLatest,
+  takeLeading,
   call,
   put,
   delay,
+  select,
 } from 'redux-saga/effects';
 
 const prefix = 'my-books/auth';
@@ -45,8 +46,9 @@ export default function reducer(state = initialState, action) {
       };
     case SUCCESS:
       return {
-        ...state,
         token: action.token,
+        error: null,
+        loading: false,
       };
     case FAIL:
       return {
@@ -88,18 +90,19 @@ export const startLoginSagaActionCreator = (email, password) => ({
   },
 });
 
-export const startLogOutSagaActionCreator = () => ({
+export const startLogoutActionCreator = () => ({
   type: START_LOGOUT_SAGA,
 });
 
 //saga-reducer
 function* startLoginSaga(action) {
   // 비동기 로직
-
+  const { email, password } = action.payload;
   try {
     yield put(loginStart());
-    yield delay(2000);
-    const token = yield call(UserService.login, action.payload);
+    yield delay(1000);
+    const token = yield call(UserService.login, email, password);
+    console.log(token);
     // 1. 받아온 토큰을 저장한다.
     TokenService.setToken(token);
     yield put(loginSucess(token));
@@ -111,13 +114,18 @@ function* startLoginSaga(action) {
 }
 
 function* startLogoutSaga() {
-  // yield call(UserService.logout());
-  // TokenService.logout(token);
+  const token = yield select(state => state.auth.token);
+  TokenService.clear();
+  yield put(loginSucess(null));
+  yield put(push('/signin'));
+  try {
+    yield call(UserService.logout, token);
+  } catch (error) {}
 }
 
 // saga-reducer-controller
 // (액션=>어떤사가로직)에 대해 룰을 정하라.
 export function* authSaga() {
   yield takeEvery(START_LOGIN_SAGA, startLoginSaga);
-  yield takeLatest(START_LOGOUT_SAGA, startLogoutSaga);
+  yield takeLeading(START_LOGOUT_SAGA, startLogoutSaga);
 }
