@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import BookListGrid from './BookListGrid';
 import BookCard from './BookCard';
 import styled from 'styled-components';
+import Headers from './Headers';
 
 const BookListBlock = styled.div`
   padding: 30px ${props => props.width / 12}px;
@@ -24,8 +25,7 @@ export default function BookList({
 
   return (
     <BookListBlock width={width}>
-      <h1>ENJOY READING</h1>
-      <h3>Logout</h3>
+      <Headers />
       {loading && <p>로딩 중...</p>}
       {error && <p>에러다!!</p>}
       <BookListGrid>

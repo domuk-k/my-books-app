@@ -3,15 +3,13 @@ import reducer from './modules/reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import TokenService from '../services/TokenService';
-import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './middlewares/saga';
 
-export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
 
-export default function create() {
+const create = history => {
   const store = createStore(
     reducer(history),
     {
@@ -22,11 +20,17 @@ export default function create() {
       },
     },
     composeWithDevTools(
-      applyMiddleware(thunk, routerMiddleware(history), sagaMiddleware),
+      applyMiddleware(
+        thunk,
+        routerMiddleware(history),
+        sagaMiddleware,
+      ),
     ),
   );
 
   sagaMiddleware.run(rootSaga);
 
   return store;
-}
+};
+
+export default create;

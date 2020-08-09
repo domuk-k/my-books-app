@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Signin from './pages/Signin';
 import NotFound from './pages/NotFound';
@@ -7,7 +7,7 @@ import Error from './pages/Error';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createGlobalStyle } from 'styled-components';
 import { ConnectedRouter } from 'connected-react-router';
-import { history } from './redux/create';
+import { history } from './index';
 
 const GlobalStyle = createGlobalStyle`
   body{
@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-const App = store => (
+const App = () => (
   <ErrorBoundary FallbackComponent={Error}>
     <GlobalStyle />
     <ConnectedRouter history={history}>

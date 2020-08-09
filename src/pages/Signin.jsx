@@ -35,7 +35,7 @@ const SinginPage = styled.div`
 
 function Signin() {
   const token = useSelector(state => state.auth.token);
-  if (token !== null) return <Redirect />;
+  // if (token !== null) return <Redirect to="/" />;
   return (
     <SinginPage>
       <div className="login-left" />

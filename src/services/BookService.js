@@ -10,7 +10,8 @@ export default class BookService {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    const data = await response.data;
+    return data;
   }
 
   static async getBookCovers(books) {
@@ -45,11 +46,15 @@ export default class BookService {
     return response.data;
   }
   static async editBook(token, bookId, book) {
-    const response = await axios.patch(`${BOOK_API_URL}/${bookId}`, book, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await axios.patch(
+      `${BOOK_API_URL}/${bookId}`,
+      book,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     return response.data;
   }
   static async deleteBook(token, bookId) {

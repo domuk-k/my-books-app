@@ -31,13 +31,16 @@ export default function SigninForm({ login }) {
   const emailRef = React.useRef();
   const passwordRef = React.useRef(); // 한번 만들어지면 객체 인스턴스는 그대로
 
-  const click = useCallback(async () => {
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-
-    if (email === '' || password === '') return;
-    login(email, password);
-  }, [login]);
+  const click = useCallback(
+    async e => {
+      e.preventDefault();
+      const email = emailRef.current.value;
+      const password = passwordRef.current.value;
+      if (email === '' || password === '') return;
+      login(email, password);
+    },
+    [login],
+  );
   return (
     <FormBlock>
       <div>

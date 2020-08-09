@@ -11,7 +11,7 @@ export default function SignInContainer() {
 
   const login = useCallback(
     (email, password) => {
-      dispatch(startLoginSagaActionCreator(email, password, history));
+      dispatch(startLoginSagaActionCreator(email, password));
     },
     [dispatch, history],
   );

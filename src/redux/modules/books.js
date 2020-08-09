@@ -1,4 +1,10 @@
-import { put, delay, call, select, takeLatest } from 'redux-saga/effects';
+import {
+  put,
+  delay,
+  call,
+  select,
+  takeLatest,
+} from 'redux-saga/effects';
 import BookService from '../../services/BookService';
 
 const prefix = 'my-books/books';
@@ -85,17 +91,18 @@ export default function reducer(state = initialState, action) {
 
 const START_GET_BOOKS = 'START_GET_BOOKS';
 
-export const startGetBooksActionCreator = () => ({
+export const startGetBooksActionCreator = token => ({
   type: START_GET_BOOKS,
+  payload: token,
 });
 
 function* startGetBooksSaga(action) {
   try {
     yield put(startGetBooks());
     yield delay(2000);
-    const token = yield select(action.payload.token);
-    const books = yield call(BookService.getBooks(token));
-    const covers = yield call(BookService.getBookCovers(books));
+    const token = action.payload;
+    const books = yield call(BookService.getBooks, token);
+    const covers = yield call(BookService.getBookCovers, books);
     const books_integrated = books.map((book, i) => ({
       ...book,
       thumbnail: covers[i].thumbnail,

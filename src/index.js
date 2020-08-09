@@ -7,11 +7,12 @@ import * as serviceWorker from './serviceWorker';
 
 import create from './redux/create';
 import { Provider } from 'react-redux';
-
+import { createBrowserHistory } from 'history';
 // store 의 생성.
 // 이게 초기화 시점이라는 것을 명시적으로 해야 테스트하기도 좋다.
 // 초기화 순서를 맞추기 용이해지기도함.
-const store = create();
+export const history = createBrowserHistory();
+const store = create(history);
 
 ReactDOM.render(
   <Provider store={store}>
